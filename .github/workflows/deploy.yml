@@ -1,0 +1,70 @@
+name: Build And Deploy Workshop Apps
+
+on:
+  workflow_dispatch:
+    inputs:
+      prefix:
+        description: Workshop resource prefix
+        required: true
+      resourceGroupName:
+        description: Azure resource group name
+        required: true
+
+env:
+  PYTHON_VERSION: '3.11'
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Build eShopOnWeb monolith
+        run: |
+          dotnet build src/monolith/eShopOnWeb/eShopOnWeb.sln
+      - name: Compile Python apps
+        run: |
+          python -m compileall src/services
+      - name: Build container images locally
+        run: |
+          docker build -t eshopweb:ci -f src/monolith/eShopOnWeb/src/Web/Dockerfile src/monolith/eShopOnWeb
+          docker build -t catalog-service:ci src/services/catalog
+          docker build -t orders-service:ci src/services/orders
+          docker build -t inventory-service:ci src/services/inventory
+          docker build -t notifications-service:ci src/services/notifications
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-test
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy infrastructure
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az deployment group create \
+              --resource-group "${{ github.event.inputs.resourceGroupName }}" \
+              --template-file infra/bicep/main.bicep \
+              --parameters prefix="${{ github.event.inputs.prefix }}"
+      - name: Deployment note
+        run: |
+          echo "Use scripts/deploy-monolith.ps1 and scripts/deploy-services.ps1 for workshop-led AKS deployments."

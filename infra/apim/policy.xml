@@ -1,0 +1,18 @@
+<policies>
+  <inbound>
+    <base />
+    <set-header name="x-workshop-stage" exists-action="override">
+      <value>modernization</value>
+    </set-header>
+    <rate-limit-by-key calls="120" renewal-period="60" counter-key="@(context.Subscription?.Key ?? context.Request.IpAddress)" />
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
+</policies>

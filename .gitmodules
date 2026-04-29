@@ -1,0 +1,3 @@
+[submodule "src/monolith/eShopOnWeb"]
+	path = src/monolith/eShopOnWeb
+	url = https://github.com/dotnet-architecture/eShopOnWeb
