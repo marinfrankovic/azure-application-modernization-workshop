@@ -152,3 +152,30 @@ This workshop deploys billable Azure resources. Review [Cost Examples](docs-cli/
 ```
 
 Use the destination resource group for the track you deployed.
+
+## Disclaimer
+
+This workshop, including all accompanying materials, code samples, scripts, and guidance, is provided for informational and educational purposes only.
+
+The content is offered "as is" without any warranties, express or implied, including but not limited to warranties of performance, merchantability, fitness for a particular purpose, or non-infringement.
+
+Participants are solely responsible for:
+- Reviewing, understanding, and validating all instructions, configurations, and code before use
+- Assessing the suitability of the provided solutions for their specific environment and requirements
+- Implementing appropriate security, compliance, and operational controls
+- Managing and monitoring any cloud resources they deploy
+
+Any deployment of resources, execution of scripts, or use of services may result in costs. Participants are fully responsible for all costs incurred within their Azure subscriptions or other environments as a result of following this workshop.
+
+The workshop materials may include simplified or non-production-ready configurations intended to illustrate concepts. They should not be used in production environments without proper review, testing, and adaptation to organizational policies and best practices.
+
+The author(s) of this workshop assume no liability for any direct, indirect, incidental, or consequential damages, including but not limited to loss of data, service disruption, security incidents, or financial costs arising from the use or misuse of the materials.
+
+By using these materials, you acknowledge and accept full responsibility for any outcomes resulting from their use.
+``
+
+### Additional Considerations for Regulated Environments
+
+Participants are responsible for ensuring that any use of the materials complies with applicable regulatory, legal, and organizational requirements, including but not limited to data protection, security, and financial regulations (e.g., DORA, NIS2, GDPR).
+
+The workshop does not guarantee compliance with any regulatory framework.
