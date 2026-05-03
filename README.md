@@ -1,22 +1,19 @@
 # Azure Application Modernization Workshop
 
-A hands-on workshop for decomposing a real Azure-hosted monolith into destination services across separate Azure VNets.
+A hands-on, self-service workshop for decomposing a real Azure-hosted monolith into destination services across separate Azure VNets.
 
-The workshop uses Microsoft's public [eShopOnWeb](src/monolith/eShopOnWeb) sample as the source monolith. The source environment is prepared before attendees start. Attendees validate the running source, create a separate destination environment, connect source and destination where needed, and progressively move capabilities into the destination.
+The workshop uses Microsoft's public [eShopOnWeb](src/monolith/eShopOnWeb) sample as the source monolith. Each attendee deploys their own source environment and their selected destination track in their own Azure subscription. No shared Azure environment is required. After deployment, attendees validate the running source, connect source and destination where needed, and progressively move capabilities into the destination.
 
 ## Workshop Model
 
 ```text
-Prepared before workshop
-========================
+Deployed by each attendee
+=========================
 
 Source Azure environment
   Source VNet
   eShopOnWeb monolith
   Baseline application URL
-
-Built by attendee
-=================
 
 Destination Azure environment
   Destination VNet
@@ -57,9 +54,39 @@ Destination Azure environment
 
 ## Quickstart
 
-### Facilitator: Prepare Source
+### Self-Service: Deploy Source And Destination
 
-Run this before attendees start:
+Run one command to deploy the source environment, the selected destination track, VNet peering, validation, and a local deployment report:
+
+Track A:
+
+```powershell
+az login
+az account set --subscription "<SUBSCRIPTION_ID_OR_NAME>"
+./infra/scripts/00-deploy-workshop.ps1 -Track A -Location westeurope -Prefix appmod
+```
+
+Track B:
+
+```powershell
+az login
+az account set --subscription "<SUBSCRIPTION_ID_OR_NAME>"
+./infra/scripts/00-deploy-workshop.ps1 -Track B -Location westeurope -Prefix appmod
+```
+
+Track C:
+
+```powershell
+az login
+az account set --subscription "<SUBSCRIPTION_ID_OR_NAME>"
+./infra/scripts/00-deploy-workshop.ps1 -Track C -Location westeurope -Prefix appmod
+```
+
+The script writes a report under `output/` with resource groups, endpoints, deployment timings, deployed artifacts, and access notes. The deployment does not generate static passwords; access uses your Azure sign-in and Azure RBAC.
+
+### Manual: Deploy Source Only
+
+Use this only when you want to run the source and destination steps separately:
 
 ```powershell
 az login
@@ -67,14 +94,14 @@ az account set --subscription "<SUBSCRIPTION_ID_OR_NAME>"
 ./infra/scripts/00-prepare-source.ps1 -SourceResourceGroupName rg-appmod-source -Location westeurope -Prefix appmodsrc
 ```
 
-Share these values with attendees:
+Record these values from deployment outputs or the generated report:
 
 - Source resource group name.
 - Source VNet name.
 - Source app URL.
 - Azure region.
 
-### Attendee: Choose Destination Track
+### Manual: Choose Destination Track
 
 Track A:
 

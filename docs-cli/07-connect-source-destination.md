@@ -2,11 +2,11 @@
 
 ## Objective
 
-Create controlled connectivity between the prepared source VNet and the attendee destination VNet.
+Create controlled connectivity between your source VNet and your destination VNet.
 
 ## Architecture Explanation
 
-Source and destination are intentionally separate VNets. During decomposition, controlled connectivity allows destination services to call source APIs or allows APIM to route to both old and new backends. This is a transition pattern, not a final dependency model.
+Source and destination are intentionally separate VNets. During decomposition, controlled connectivity allows destination services to call source APIs or allows APIM to route to both old and new backends. This is a transition pattern, not a final dependency model. The self-service deployment script creates peering by default; run this lab manually only if you skipped peering or are inspecting the networking steps.
 
 ## Azure Services Used
 
@@ -17,7 +17,7 @@ Source and destination are intentionally separate VNets. During decomposition, c
 ## Steps
 
 1. Confirm source and destination address ranges do not overlap.
-2. Run:
+2. If you did not use the self-service script, run:
 
 ```powershell
 ./infra/scripts/04-peer-source-destination.ps1 -SourceResourceGroupName rg-appmod-source -SourceVnetName appmodsrc-source-vnet -DestinationResourceGroupName rg-appmod-dest-b -DestinationVnetName appmodb-dest-ent-vnet

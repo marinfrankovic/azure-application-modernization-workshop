@@ -14,15 +14,16 @@ Understand the workshop sequence and choose the modernization track.
 
 ## Flow
 
-1. Validate prepared source environment.
-2. Deploy destination VNet and platform for selected track.
-3. Peer or connect source and destination VNets as needed.
-4. Analyze eShopOnWeb bounded contexts.
-5. Containerize and deploy extracted services.
-6. Route traffic and add asynchronous messaging.
-7. Add observability, security, and cost review.
-8. Clean up destination resources.
+1. Deploy your source environment and selected destination track.
+2. Review the generated deployment report for endpoints, timings, artifacts, and access notes.
+3. Validate source and destination resources.
+4. Peer or connect source and destination VNets as needed.
+5. Analyze eShopOnWeb bounded contexts.
+6. Containerize and deploy extracted services.
+7. Route traffic and add asynchronous messaging.
+8. Add observability, security, and cost review.
+9. Clean up source and destination resources.
 
 ## Expected Outcome
 
-You know which track you are following and what you will build in the destination environment.
+You know which track you are following and how the full source-plus-destination environment is created.

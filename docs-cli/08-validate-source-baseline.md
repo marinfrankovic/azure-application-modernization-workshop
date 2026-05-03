@@ -2,7 +2,7 @@
 
 ## Objective
 
-Verify eShopOnWeb is healthy in the prepared source environment before decomposition begins.
+Verify eShopOnWeb is healthy in your source environment before decomposition begins.
 
 ## Architecture Explanation
 
@@ -16,10 +16,10 @@ A modernization workshop needs a known-good source. If the source monolith is un
 
 ## Steps
 
-1. Open the source eShopOnWeb URL provided by the facilitator.
+1. Open the source eShopOnWeb URL from the deployment report under `output/`.
 2. Browse catalog pages and confirm the application responds.
 3. Record source resource group, VNet, app URL, and region.
-4. Check source logs if access is provided.
+4. Check source logs in the source Log Analytics workspace when needed.
 5. Mark the baseline as ready in your worksheet.
 
 ## Expected Outcome

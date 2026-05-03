@@ -6,15 +6,16 @@ Choose the portal path for Track A, B, or C.
 
 ## Steps
 
-1. Validate source app URL.
-2. Choose destination track:
+1. Create the source resource group, source VNet, and source app.
+2. Validate source app URL.
+3. Choose destination track:
    - Track A: Container Apps.
    - Track B: AKS + APIM + Service Bus.
    - Track C: private networking + Key Vault + Defender.
-3. Create the destination resource group.
-4. Create destination VNet.
-5. Deploy services and route traffic.
-6. Review cost and cleanup.
+4. Create the destination resource group.
+5. Create destination VNet.
+6. Deploy services and route traffic.
+7. Review cost and cleanup.
 
 ## Expected Outcome
 

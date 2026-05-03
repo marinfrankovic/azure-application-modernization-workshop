@@ -52,7 +52,7 @@ Workshop planning estimate: EUR 18 - EUR 45 for a short run.
 3. Keep AKS node count low.
 4. Avoid leaving APIM Developer tier running overnight.
 5. Keep Log Analytics retention at 30 days or less for labs.
-6. Delete source and destination environments when the workshop ends unless the facilitator intentionally preserves the source for another cohort.
+6. Delete both source and destination environments when the workshop ends.
 
 ## Expected Outcome
 

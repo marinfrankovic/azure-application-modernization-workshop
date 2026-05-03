@@ -19,6 +19,7 @@ local.settings.json
 # Azure/generated output
 .azure/*.json
 infra/bicep/*.json
+output/
 
 # OS/editor
 .DS_Store

@@ -8,7 +8,7 @@ Resolve common workshop failures quickly.
 
 ## Source URL Does Not Respond
 
-Confirm the facilitator prepared the source environment and that source app status is healthy.
+Confirm `00-deploy-workshop.ps1` or `00-prepare-source.ps1` completed successfully, then check the source Container App status, ingress FQDN, and Log Analytics logs.
 
 ## VNet Peering Fails
 

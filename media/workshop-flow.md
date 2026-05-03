@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart TD
-    A[Facilitator prepares source eShopOnWeb] --> B[Attendee validates source]
+    A[Attendee deploys source eShopOnWeb] --> B[Attendee validates source]
     B --> C{Choose destination track}
     C --> D[Track A Container Apps]
     C --> E[Track B AKS + APIM + Service Bus]

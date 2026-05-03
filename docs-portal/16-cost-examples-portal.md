@@ -14,7 +14,7 @@ Estimate and monitor workshop cost from the Azure portal.
    - Track B 8-hour lab: EUR 18 - EUR 45.
    - Track C 8-hour lab: EUR 12 - EUR 35 before workload compute.
 5. Use the formula: hourly rate x running hours + usage charges.
-6. Delete source and destination resource groups when no longer needed.
+6. Delete both source and destination resource groups when no longer needed.
 
 ## Expected Outcome
 

@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart LR
-    subgraph Source[Prepared Source VNet]
+    subgraph Source[Self-Service Source VNet]
         ESHOP[eShopOnWeb monolith]
     end
 

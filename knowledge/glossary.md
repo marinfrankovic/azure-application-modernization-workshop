@@ -2,8 +2,8 @@
 
 | Term | Meaning |
 | --- | --- |
-| Source environment | Existing Azure-hosted eShopOnWeb monolith prepared before the workshop. |
-| Destination environment | New Azure environment created by attendees for decomposed services. |
+| Source environment | Existing Azure-hosted eShopOnWeb monolith deployed by each attendee or team. |
+| Destination environment | New Azure environment created by each attendee or team for decomposed services. |
 | Track A | Simple Container Apps destination. |
 | Track B | Enterprise AKS, APIM, and Service Bus destination. |
 | Track C | Regulated private networking, Key Vault, and Defender destination. |

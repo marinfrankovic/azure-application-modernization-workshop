@@ -12,7 +12,7 @@ Create a teaching repository that starts with a prepared Azure source environmen
 
 ## Architecture
 
-- Prepared source VNet with eShopOnWeb baseline.
+- Self-service source VNet with eShopOnWeb baseline.
 - Separate destination VNets for each track.
 - Track A: Container Apps simple destination.
 - Track B: AKS, ACR, APIM, Service Bus, Application Insights.
@@ -20,7 +20,7 @@ Create a teaching repository that starts with a prepared Azure source environmen
 
 ## Decisions
 
-- Source environment is prepared before attendees start.
+- Source environment is deployed by each attendee or team.
 - Attendees build destination environment and decomposition path.
 - Keep docs structure aligned with data-resilience-workshop: docs-cli, docs-portal, infra/scripts, knowledge, and media.
 - Use in-memory/simple JSON-compatible data stores in microservices to focus on decomposition concepts.

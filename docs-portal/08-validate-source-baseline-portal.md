@@ -2,7 +2,7 @@
 
 ## Objective
 
-Confirm source eShopOnWeb is healthy.
+Confirm your source eShopOnWeb deployment is healthy.
 
 ## Steps
 
