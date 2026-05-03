@@ -12,6 +12,16 @@ Attendee materials intentionally provide objectives, constraints, and validation
 | Track B: Enterprise | [track-b-enterprise.md](track-b-enterprise.md) | Track A plus ACR, APIM, Service Bus, Application Insights, and Log Analytics. |
 | Track C: Regulated | [track-c-regulated.md](track-c-regulated.md) | Private or restricted AKS, Key Vault, Defender for Cloud, private access controls, and security evidence. |
 
+## Facilitation Flow Guides
+
+Use these first during delivery. They follow the same mental model as attendee docs: common foundation first, then selected track, then the complete solution guide only when needed.
+
+| Track | Flow Guide | Complete Solution |
+| --- | --- | --- |
+| Track A: Simple | [track-a-facilitation-flow.md](track-a-facilitation-flow.md) | [track-a-simple.md](track-a-simple.md) |
+| Track B: Enterprise | [track-b-facilitation-flow.md](track-b-facilitation-flow.md) | [track-b-enterprise.md](track-b-enterprise.md) |
+| Track C: Regulated | [track-c-facilitation-flow.md](track-c-facilitation-flow.md) | [track-c-regulated.md](track-c-regulated.md) |
+
 ## How To Use These Guides
 
 1. Ask the attendee to explain their intended architecture first.

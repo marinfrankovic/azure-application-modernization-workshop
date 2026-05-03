@@ -4,6 +4,10 @@
 
 Create a regulated AKS target through the portal.
 
+## Track Flow
+
+[Open the Track C step-order diagram](../media/track-c-regulated-flow.md).
+
 ## Steps
 
 1. Open the Track C destination resource group and VNet created by the foundation script.

@@ -23,6 +23,20 @@ Everything else is created by you during the exercises. You may use the Azure po
 
 You may choose one track for a focused lab or run multiple tracks with different prefixes to compare tradeoffs.
 
+## Track Flow Diagrams
+
+- [Track A: Simple AKS Flow](../media/track-a-simple-flow.md)
+- [Track B: Enterprise AKS Flow](../media/track-b-enterprise-flow.md)
+- [Track C: Regulated AKS Flow](../media/track-c-regulated-flow.md)
+
+## Track Documentation Flow Guides
+
+Use these after you pick a track. Each guide starts with the common documents for all attendees, then lists the selected track's documents and validation sequence.
+
+- [Track A Workshop Flow](17-track-a-workshop-flow.md)
+- [Track B Workshop Flow](18-track-b-workshop-flow.md)
+- [Track C Workshop Flow](19-track-c-workshop-flow.md)
+
 ## Flow
 
 1. Complete prerequisites and deploy the workshop foundation.

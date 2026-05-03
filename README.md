@@ -39,6 +39,17 @@ Attendees may choose one track or complete multiple tracks in sequence.
 | Track B: Enterprise | AKS platform integrated with enterprise routing, registry, messaging, and observability. | AKS, ACR, APIM, Service Bus, Application Insights. | Platform engineering and production patterns. Medium/high complexity. | eShopOnWeb runs on AKS, image flow uses ACR, APIM fronts traffic, Service Bus supports async flow, and telemetry is visible in Application Insights. |
 | Track C: Regulated | Private AKS-oriented architecture in a segmented destination VNet with secret governance and security posture controls. | Private AKS, Key Vault, private access components, Defender for Cloud configuration. | Security, private networking, compliance validation. Highest complexity. | eShopOnWeb is migrated to a private AKS posture with Key Vault-backed secret handling and Defender/security validation. |
 
+Track step order diagrams:
+
+- [Track A: Simple AKS Flow](media/track-a-simple-flow.md)
+- [Track B: Enterprise AKS Flow](media/track-b-enterprise-flow.md)
+- [Track C: Regulated AKS Flow](media/track-c-regulated-flow.md)
+
+Track documentation flow guides:
+
+- CLI: [Track A](docs-cli/17-track-a-workshop-flow.md), [Track B](docs-cli/18-track-b-workshop-flow.md), [Track C](docs-cli/19-track-c-workshop-flow.md)
+- Portal: [Track A](docs-portal/17-track-a-workshop-flow-portal.md), [Track B](docs-portal/18-track-b-workshop-flow-portal.md), [Track C](docs-portal/19-track-c-workshop-flow-portal.md)
+
 ## Quickstart
 
 Run one command to deploy the source VM, destination VNet foundation, optional VNet peering, validation, and a local foundation report.
@@ -90,6 +101,9 @@ The report under `output/` includes the source VM URL, SSH command, resource gro
 15. [Operational Runbooks](docs-cli/14-operational-runbooks.md)
 16. [Troubleshooting](docs-cli/15-troubleshooting.md)
 17. [Cost Examples](docs-cli/16-cost-examples.md)
+18. [Track A Workshop Flow](docs-cli/17-track-a-workshop-flow.md)
+19. [Track B Workshop Flow](docs-cli/18-track-b-workshop-flow.md)
+20. [Track C Workshop Flow](docs-cli/19-track-c-workshop-flow.md)
 
 ### Facilitator-Only Docs
 
@@ -114,6 +128,9 @@ Facilitator-only material is separated under [docs-facilitator](docs-facilitator
 |   +-- scripts/
 +-- knowledge/
 +-- media/
+|   +-- track-a-simple-flow.md
+|   +-- track-b-enterprise-flow.md
+|   +-- track-c-regulated-flow.md
 +-- src/
     +-- monolith/eShopOnWeb
     +-- services/

@@ -17,6 +17,20 @@ Choose one or more portal-driven VM-to-AKS migration tracks.
 6. Containerize, deploy, route, and validate eShopOnWeb on AKS.
 7. Review cost, document decisions, and clean up.
 
+## Track Flow Diagrams
+
+- [Track A: Simple AKS Flow](../media/track-a-simple-flow.md)
+- [Track B: Enterprise AKS Flow](../media/track-b-enterprise-flow.md)
+- [Track C: Regulated AKS Flow](../media/track-c-regulated-flow.md)
+
+## Track Documentation Flow Guides
+
+Use these after you pick a track. Each guide starts with the common portal documents for all attendees, then lists the selected track's documents and validation sequence.
+
+- [Track A Workshop Flow - Azure Portal](17-track-a-workshop-flow-portal.md)
+- [Track B Workshop Flow - Azure Portal](18-track-b-workshop-flow-portal.md)
+- [Track C Workshop Flow - Azure Portal](19-track-c-workshop-flow-portal.md)
+
 ## Expected Outcome
 
 You have selected a target AKS architecture and know what you must create manually.

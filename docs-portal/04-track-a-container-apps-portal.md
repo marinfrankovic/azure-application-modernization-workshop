@@ -4,6 +4,10 @@
 
 Create a basic AKS target through the portal and migrate eShopOnWeb from the VM.
 
+## Track Flow
+
+[Open the Track A step-order diagram](../media/track-a-simple-flow.md).
+
 ## Steps
 
 1. Open the Track A destination resource group and VNet created by the foundation script.

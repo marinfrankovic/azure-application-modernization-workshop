@@ -4,6 +4,10 @@
 
 Create the enterprise AKS platform through the portal.
 
+## Track Flow
+
+[Open the Track B step-order diagram](../media/track-b-enterprise-flow.md).
+
 ## Steps
 
 1. Open the Track B destination resource group and VNet created by the foundation script.
