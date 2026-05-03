@@ -1,10 +1,10 @@
-@description('Short lowercase prefix for the Track B destination foundation.')
+@description('Short lowercase prefix for the Track A destination foundation.')
 param prefix string
 
-@description('Azure region for the enterprise destination foundation.')
+@description('Azure region for the destination foundation.')
 param location string = resourceGroup().location
 
-var vnetName = '${prefix}-dest-ent-vnet'
+var vnetName = '${prefix}-dest-simple-vnet'
 
 resource destinationVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
   name: vnetName
@@ -12,26 +12,20 @@ resource destinationVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
   properties: {
     addressSpace: {
       addressPrefixes: [
-        '10.30.0.0/16'
+        '10.20.0.0/16'
       ]
     }
     subnets: [
       {
         name: 'aks-system'
         properties: {
-          addressPrefix: '10.30.1.0/24'
+          addressPrefix: '10.20.1.0/24'
         }
       }
       {
         name: 'ingress'
         properties: {
-          addressPrefix: '10.30.2.0/24'
-        }
-      }
-      {
-        name: 'apim'
-        properties: {
-          addressPrefix: '10.30.3.0/24'
+          addressPrefix: '10.20.2.0/24'
         }
       }
     ]
@@ -41,4 +35,3 @@ resource destinationVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
 output destinationVnetName string = destinationVnet.name
 output aksSubnetName string = 'aks-system'
 output ingressSubnetName string = 'ingress'
-output apimSubnetName string = 'apim'

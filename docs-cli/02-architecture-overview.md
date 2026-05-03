@@ -2,38 +2,36 @@
 
 ## Objective
 
-Understand the source and destination topology before changing the application.
+Understand the starting architecture, target track options, and responsibility split between initial provisioning and attendee work.
 
-## Architecture Explanation
+## Starting Architecture
 
-The workshop starts when you deploy a source Azure environment running eShopOnWeb. The source VNet represents the current application hosting boundary. You then deploy a separate destination VNet and new platform services for the selected track. Decomposition happens by moving selected capabilities from the source monolith into destination services while preserving controlled connectivity.
+The source environment represents the current state of the application:
 
-```text
-Self-service source environment
-  Source VNet 10.10.0.0/16
-    eShopOnWeb monolith
+- eShopOnWeb runs as a non-containerized .NET application on a Linux VM.
+- The VM is deployed into a source VNet.
+- The source app remains available during migration for comparison and rollback.
 
-Self-service destination environment
-  Track A VNet 10.20.0.0/16 -> Container Apps
-  Track B VNet 10.30.0.0/16 -> AKS + APIM + Service Bus
-  Track C VNet 10.40.0.0/16 -> private foundations + Key Vault + Defender
-```
+## Destination Foundation
 
-## Azure Services Used
+The destination environment starts intentionally empty except for networking:
 
-- Source: VNet, Container Apps or equivalent app hosting, Log Analytics.
-- Destination Track A: Container Apps, VNet, Log Analytics.
-- Destination Track B: AKS, ACR, APIM, Service Bus, Application Insights.
-- Destination Track C: private VNet segmentation, Key Vault, ACR private access, Defender guidance.
+- A destination VNet is created for the selected track.
+- Track-specific subnets are created to guide placement decisions.
+- No AKS cluster, registry, gateway, messaging service, monitoring resource, Key Vault, or Defender configuration is created for you.
 
-## Steps
+## Target Track Architectures
 
-1. Choose a unique prefix and destination track.
-2. Deploy source and destination with `00-deploy-workshop.ps1`.
-3. Review the generated report for source VNet, source app URL, destination VNet, and access notes.
-4. Validate no address space overlap.
-5. Confirm VNet peering after both environments are deployed.
+Track A creates a simple AKS destination. You containerize eShopOnWeb, create AKS, deploy the workload, and expose it through a Kubernetes service or ingress.
+
+Track B creates an enterprise AKS destination. You add ACR for image management, APIM for controlled routing, Service Bus for asynchronous integration, and Application Insights for telemetry.
+
+Track C creates a regulated AKS destination. You design private or restricted AKS access, use Key Vault for secrets, enable Defender for Cloud controls, and validate network isolation.
+
+## Connectivity
+
+Source and destination VNets may be peered by the foundation script so you can test transition patterns. Peering does not mean the final architecture must depend on the source VM. Treat it as temporary migration connectivity.
 
 ## Expected Outcome
 
-You can explain where the monolith runs, where decomposed services run, and how traffic moves between source and destination.
+You can explain the source VM, destination VNet foundation, and the Azure services you must create for your selected track.

@@ -2,21 +2,21 @@
 
 ## Objective
 
-Choose the portal path for Track A, B, or C.
+Choose one or more portal-driven VM-to-AKS migration tracks.
 
 ## Steps
 
-1. Create the source resource group, source VNet, and source app.
-2. Validate source app URL.
+1. Deploy the foundation with the workshop script.
+2. Validate the source VM URL.
 3. Choose destination track:
-   - Track A: Container Apps.
-   - Track B: AKS + APIM + Service Bus.
-   - Track C: private networking + Key Vault + Defender.
-4. Create the destination resource group.
-5. Create destination VNet.
-6. Deploy services and route traffic.
-7. Review cost and cleanup.
+   - Track A: Simple AKS migration.
+   - Track B: Enterprise AKS with ACR, APIM, Service Bus, and Application Insights.
+   - Track C: Regulated AKS with private networking, Key Vault, and Defender.
+4. Confirm the destination resource group contains only the VNet foundation.
+5. Create AKS and track-specific services in the portal.
+6. Containerize, deploy, route, and validate eShopOnWeb on AKS.
+7. Review cost, document decisions, and clean up.
 
 ## Expected Outcome
 
-You have selected the destination architecture for the portal labs.
+You have selected a target AKS architecture and know what you must create manually.

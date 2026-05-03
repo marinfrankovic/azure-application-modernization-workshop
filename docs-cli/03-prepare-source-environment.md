@@ -2,42 +2,43 @@
 
 ## Objective
 
-Create the source environment in your own Azure subscription. This is a required self-service step for every attendee or team.
+Provision and validate the VM-hosted eShopOnWeb source environment and the selected destination VNet foundation.
 
-## Architecture Explanation
+## What The Script Creates
 
-The source environment represents the existing Azure-hosted monolith. Deploying it yourself keeps the workshop portable: every attendee has the same baseline without relying on shared infrastructure.
+The foundation deployment creates:
 
-## Azure Services Used
+- Source resource group.
+- Source VNet and subnet.
+- Linux VM running non-containerized eShopOnWeb.
+- Public IP and NSG rules for HTTP and SSH access to the lab VM.
+- Destination resource group.
+- Destination VNet and subnets for the selected track.
+- Optional VNet peering between source and destination.
+- Local deployment report under `output/`.
 
-- Resource group for source.
-- Source VNet.
-- Container Apps environment for the source app.
-- Log Analytics workspace.
+The script does not create AKS or any target platform services.
 
 ## Steps
 
-1. Choose a source resource group, region, and prefix.
-2. For the normal workshop path, deploy source and destination together:
+1. Deploy a selected track foundation:
 
 ```powershell
 ./infra/scripts/00-deploy-workshop.ps1 -Track A -Location westeurope -Prefix appmod42
 ```
 
-3. To deploy only the source environment for manual labs, run:
+2. Open the generated report in `output/`.
+3. Record the source VM name, source application URL, SSH command, source resource group, destination resource group, and destination VNet name.
+4. Browse the source application URL.
+5. Validate the source VM service if needed:
 
 ```powershell
-./infra/scripts/00-prepare-source.ps1 -SourceResourceGroupName rg-appmod-source -Location westeurope -Prefix appmodsrc
+ssh azureuser@<SOURCE_PUBLIC_IP>
+systemctl status eshop-web --no-pager
 ```
 
-4. Record these values from deployment outputs or the generated report:
-   - Source resource group name.
-   - Source VNet name.
-   - Source application URL.
-   - Region.
-5. Validate the source URL.
-6. Keep the source resources available during decomposition so they remain the baseline and rollback anchor.
+6. Confirm the destination resource group contains only networking resources before you start the target build.
 
 ## Expected Outcome
 
-The source environment is ready in your Azure subscription and can be used as the baseline for destination decomposition.
+The source VM serves eShopOnWeb, and the destination VNet is ready for you to create AKS and track-specific Azure services manually.

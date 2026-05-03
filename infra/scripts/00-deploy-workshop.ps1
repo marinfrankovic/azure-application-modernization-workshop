@@ -12,8 +12,6 @@ param(
 
     [string]$DestinationResourceGroupName,
 
-    [string]$AdminObjectId,
-
     [switch]$SkipPeering,
 
     [string]$ReportPath
@@ -46,18 +44,21 @@ $destinationVnetName = switch ($Track) {
     'B' { "$destinationPrefix-dest-ent-vnet" }
     'C' { "$destinationPrefix-dest-reg-vnet" }
 }
+$destinationDeploymentName = switch ($Track) {
+    'A' { 'destination-simple-aks-vnet' }
+    'B' { 'destination-enterprise-aks' }
+    'C' { 'destination-regulated-private' }
+}
 
 $steps = New-Object System.Collections.Generic.List[object]
 $errors = New-Object System.Collections.Generic.List[string]
 $overallTimer = [System.Diagnostics.Stopwatch]::StartNew()
+$deploymentFailed = $false
 
 function Invoke-WorkshopStep {
     param(
-        [Parameter(Mandatory = $true)]
-        [string]$Name,
-
-        [Parameter(Mandatory = $true)]
-        [scriptblock]$Command
+        [Parameter(Mandatory = $true)] [string]$Name,
+        [Parameter(Mandatory = $true)] [scriptblock]$Command
     )
 
     Write-Host "==> $Name"
@@ -92,42 +93,38 @@ function Get-ResourceSummary {
         return @()
     }
 
-    az resource list `
-        --resource-group $ResourceGroupName `
-        --query "[].{name:name,type:type,location:location}" `
-        -o json | ConvertFrom-Json
+    az resource list --resource-group $ResourceGroupName --query "[].{name:name,type:type,location:location}" -o json | ConvertFrom-Json
 }
 
-function Get-ContainerAppUrl {
+function Get-DeploymentOutputs {
     param(
         [string]$ResourceGroupName,
-        [string]$Name
+        [string]$DeploymentName
     )
 
-    $fqdn = az containerapp show --resource-group $ResourceGroupName --name $Name --query properties.configuration.ingress.fqdn -o tsv 2>$null
-    if ($fqdn) {
-        return "https://$fqdn"
+    $json = az deployment group show --resource-group $ResourceGroupName --name $DeploymentName --query properties.outputs -o json 2>$null
+    if (-not $json) {
+        return $null
     }
 
-    return ''
+    return $json | ConvertFrom-Json
 }
 
 $account = az account show --query "{name:name,id:id,tenantId:tenantId,user:user.name}" -o json | ConvertFrom-Json
-Write-Host "Deploying self-service workshop to subscription '$($account.name)' ($($account.id))."
+Write-Host "Deploying workshop foundation to subscription '$($account.name)' ($($account.id))."
 Write-Host "Track: $Track"
 Write-Host "Source resource group: $SourceResourceGroupName"
 Write-Host "Destination resource group: $DestinationResourceGroupName"
 
-$deploymentFailed = $false
 try {
-    Invoke-WorkshopStep -Name 'Deploy source environment' -Command {
+    Invoke-WorkshopStep -Name 'Deploy source VM environment' -Command {
         & (Join-Path $PSScriptRoot '00-prepare-source.ps1') `
             -SourceResourceGroupName $SourceResourceGroupName `
             -Location $Location `
             -Prefix $sourcePrefix
     }
 
-    Invoke-WorkshopStep -Name "Deploy Track $Track destination" -Command {
+    Invoke-WorkshopStep -Name "Deploy Track $Track destination VNet" -Command {
         switch ($Track) {
             'A' {
                 & (Join-Path $PSScriptRoot '01-deploy-track-a-simple.ps1') `
@@ -142,15 +139,10 @@ try {
                     -Prefix $destinationPrefix
             }
             'C' {
-                if (-not $AdminObjectId) {
-                    $script:AdminObjectId = az ad signed-in-user show --query id -o tsv
-                }
-
                 & (Join-Path $PSScriptRoot '03-deploy-track-c-regulated.ps1') `
                     -DestinationResourceGroupName $DestinationResourceGroupName `
                     -Location $Location `
-                    -Prefix $destinationPrefix `
-                    -AdminObjectId $AdminObjectId
+                    -Prefix $destinationPrefix
             }
         }
     }
@@ -175,19 +167,22 @@ try {
 }
 catch {
     $deploymentFailed = $true
-    Write-Warning "Deployment did not complete successfully. A report will still be written with captured errors."
+    Write-Warning 'Deployment did not complete successfully. A report will still be written with captured errors.'
 }
 
 $overallTimer.Stop()
 
 $sourceResources = Get-ResourceSummary -ResourceGroupName $SourceResourceGroupName
 $destinationResources = Get-ResourceSummary -ResourceGroupName $DestinationResourceGroupName
-$sourceUrl = Get-ContainerAppUrl -ResourceGroupName $SourceResourceGroupName -Name "$sourcePrefix-source-eshop"
-$catalogUrl = if ($Track -eq 'A') { Get-ContainerAppUrl -ResourceGroupName $DestinationResourceGroupName -Name "$destinationPrefix-catalog" } else { '' }
-$ordersUrl = if ($Track -eq 'A') { Get-ContainerAppUrl -ResourceGroupName $DestinationResourceGroupName -Name "$destinationPrefix-orders" } else { '' }
+$sourceOutputs = Get-DeploymentOutputs -ResourceGroupName $SourceResourceGroupName -DeploymentName 'source-prepared'
+$destinationOutputs = Get-DeploymentOutputs -ResourceGroupName $DestinationResourceGroupName -DeploymentName $destinationDeploymentName
+$sourceUrl = if ($sourceOutputs -and $sourceOutputs.sourceAppUrl) { $sourceOutputs.sourceAppUrl.value } else { '' }
+$sshCommand = if ($sourceOutputs -and $sourceOutputs.sshCommand) { $sourceOutputs.sshCommand.value } else { '' }
+$sourceVmName = if ($sourceOutputs -and $sourceOutputs.sourceVmName) { $sourceOutputs.sourceVmName.value } else { '' }
+$destinationVnetOutput = if ($destinationOutputs -and $destinationOutputs.destinationVnetName) { $destinationOutputs.destinationVnetName.value } else { $destinationVnetName }
 
 $report = New-Object System.Collections.Generic.List[string]
-$report.Add('# Azure Application Modernization Workshop Deployment Report') | Out-Null
+$report.Add('# Azure Application Modernization Workshop Foundation Report') | Out-Null
 $report.Add('') | Out-Null
 $report.Add("Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz')") | Out-Null
 $report.Add("Subscription: $($account.name) ($($account.id))") | Out-Null
@@ -196,30 +191,25 @@ $report.Add("Signed-in user: $($account.user)") | Out-Null
 $report.Add("Location: $Location") | Out-Null
 $report.Add("Track: $Track") | Out-Null
 $report.Add("Status: $(if ($deploymentFailed) { 'Failed' } else { 'Succeeded' })") | Out-Null
-$report.Add("Total deployment time: $([math]::Round($overallTimer.Elapsed.TotalMinutes, 1)) minutes") | Out-Null
+$report.Add("Total foundation deployment time: $([math]::Round($overallTimer.Elapsed.TotalMinutes, 1)) minutes") | Out-Null
 $report.Add('') | Out-Null
 $report.Add('## Resource Groups') | Out-Null
 $report.Add('') | Out-Null
 $report.Add(('- Source: `{0}`' -f $SourceResourceGroupName)) | Out-Null
 $report.Add(('- Destination: `{0}`' -f $DestinationResourceGroupName)) | Out-Null
 $report.Add('') | Out-Null
-$report.Add('## Endpoints') | Out-Null
+$report.Add('## Provisioned Foundation') | Out-Null
 $report.Add('') | Out-Null
-$report.Add("- Source eShopOnWeb: $sourceUrl") | Out-Null
-if ($catalogUrl) { $report.Add("- Track A catalog service: $catalogUrl") | Out-Null }
-if ($ordersUrl) { $report.Add("- Track A orders service: $ordersUrl") | Out-Null }
+$report.Add(('- Source VM: `{0}`' -f $sourceVmName)) | Out-Null
+$report.Add("- Source eShopOnWeb URL: $sourceUrl") | Out-Null
+$report.Add(('- Destination VNet: `{0}`' -f $destinationVnetOutput)) | Out-Null
 $report.Add('') | Out-Null
 $report.Add('## Access Notes') | Out-Null
 $report.Add('') | Out-Null
-$report.Add('- No workshop passwords or static secrets are generated by the deployment scripts.') | Out-Null
-$report.Add('- Use the Azure account shown above to manage deployed resources.') | Out-Null
-if ($Track -eq 'B') {
-    $aksName = "$destinationPrefix-dest-aks"
-    $report.Add(('- AKS access: `az aks get-credentials --resource-group {0} --name {1}`' -f $DestinationResourceGroupName, $aksName)) | Out-Null
-}
-if ($Track -eq 'C') {
-    $report.Add(('- Key Vault access is granted through Azure RBAC to object ID `{0}`.' -f $AdminObjectId)) | Out-Null
-}
+$report.Add('- Initial provisioning creates only the source VM environment and destination VNet foundation.') | Out-Null
+$report.Add('- Attendees create AKS and all track-specific Azure services during the workshop by using the Azure portal, Azure CLI, or both.') | Out-Null
+$report.Add(('- SSH command: `{0}`' -f $sshCommand)) | Out-Null
+$report.Add('- A local SSH private key may be generated under ignored `output/ssh/`; do not commit it.') | Out-Null
 $report.Add('') | Out-Null
 $report.Add('## Timings') | Out-Null
 $report.Add('') | Out-Null

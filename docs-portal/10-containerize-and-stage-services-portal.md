@@ -2,17 +2,17 @@
 
 ## Objective
 
-Stage extracted service containers in the destination environment.
+Containerize eShopOnWeb and deploy the image to AKS.
 
 ## Steps
 
-1. Build service images locally or in CI.
+1. Build the eShopOnWeb image locally, in Cloud Shell, or in a registry build workflow.
 2. Push images to the selected registry.
-3. For Track A, update Container Apps image settings.
-4. For Track B, deploy Kubernetes manifests to AKS and verify pods.
+3. Confirm AKS has permission and network access to pull the image.
+4. Deploy Kubernetes resources to AKS and verify pods.
 5. For Track C, confirm private registry access and approved image admission.
-6. Test service health endpoints.
+6. Test the application endpoint.
 
 ## Expected Outcome
 
-Extracted services are deployed in the destination but traffic shift remains controlled.
+The VM-hosted monolith has an AKS-hosted equivalent ready for validation.

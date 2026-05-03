@@ -2,19 +2,26 @@
 
 ## Objective
 
-Create regulated destination foundations through the portal.
+Create a regulated AKS target through the portal.
 
 ## Steps
 
-1. Create resource group `rg-appmod-dest-c`.
-2. Create destination VNet `10.40.0.0/16`.
-3. Create workload and private endpoint subnets.
-4. Create Key Vault with RBAC authorization and public network access disabled.
-5. Create ACR with admin user disabled and public access disabled where policy allows.
-6. Add private endpoints and private DNS zones as required.
-7. Enable Defender plans for Containers, Key Vault, and relevant resources.
+1. Open the Track C destination resource group and VNet created by the foundation script.
+2. Create private or restricted AKS in the destination VNet.
+3. Create Key Vault with RBAC authorization and restricted network access.
+4. Create or select an approved registry path for the eShopOnWeb image.
+5. Configure private endpoints and private DNS zones where your design requires them.
+6. Enable Defender plans for Containers, Key Vault, and relevant resources where permitted.
+7. Deploy eShopOnWeb to AKS without storing secrets in manifests.
 8. Document policy exceptions or approvals.
+
+## Validation Criteria
+
+- AKS control plane and workload access follow the selected private or restricted design.
+- Key Vault access works through approved identity and network paths.
+- Defender settings or documented constraints are visible.
+- The workload is reachable only through the approved route.
 
 ## Expected Outcome
 
-Track C has private networking and security foundations for regulated modernization.
+Track C runs eShopOnWeb on AKS with regulated networking, secrets, and security controls.

@@ -13,7 +13,7 @@ Destination services introduce new operational responsibilities: routing, queues
 - Log Analytics.
 - Application Insights.
 - Service Bus metrics.
-- AKS or Container Apps diagnostics.
+- AKS diagnostics.
 - Key Vault diagnostics.
 
 ## Steps

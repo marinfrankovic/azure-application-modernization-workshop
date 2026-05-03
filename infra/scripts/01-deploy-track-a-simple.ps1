@@ -17,8 +17,8 @@ if ($LASTEXITCODE -ne 0) { throw "Failed to create or update resource group $Des
 
 az deployment group create `
     --resource-group $DestinationResourceGroupName `
-    --template-file "$repoRoot/infra/bicep/destination-simple-containerapps.bicep" `
+    --template-file "$repoRoot/infra/bicep/destination-simple-aks-vnet.bicep" `
     --parameters prefix=$Prefix location=$Location
 if ($LASTEXITCODE -ne 0) { throw "Track A destination deployment failed for $DestinationResourceGroupName." }
 
-Write-Host 'Track A destination is ready. Continue with catalog and orders decomposition labs.'
+Write-Host 'Track A destination VNet is ready. Attendees create AKS and supporting resources during the lab.'

@@ -2,17 +2,17 @@
 
 ## Objective
 
-Route catalog reads to the destination catalog service.
+Plan catalog extraction after the AKS migration baseline is running.
 
 ## Steps
 
-1. Open destination catalog service resource.
-2. Confirm health endpoint works.
-3. In Track A, use the Container Apps URL for catalog testing.
-4. In Track B, configure APIM `/catalog` route to the AKS backend.
-5. In Track C, validate private ingress and DNS.
+1. Inspect catalog-related pages, controllers, and data access in eShopOnWeb.
+2. Confirm the AKS-hosted monolith serves catalog pages successfully.
+3. Define the catalog API boundary you would extract first.
+4. In Track B, plan an APIM `/catalog` route to a future AKS backend.
+5. In Track C, validate how private ingress and DNS would expose catalog safely.
 6. Keep source catalog route documented for rollback.
 
 ## Expected Outcome
 
-Catalog can be served from the destination environment.
+You have a catalog extraction plan based on the migrated AKS baseline.

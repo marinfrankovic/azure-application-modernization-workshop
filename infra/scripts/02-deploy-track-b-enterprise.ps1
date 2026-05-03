@@ -21,4 +21,4 @@ az deployment group create `
     --parameters prefix=$Prefix location=$Location
 if ($LASTEXITCODE -ne 0) { throw "Track B destination deployment failed for $DestinationResourceGroupName." }
 
-Write-Host 'Track B enterprise destination is ready. Use deploy-services.ps1 to publish service images to AKS.'
+Write-Host 'Track B enterprise destination VNet is ready. Attendees create AKS, ACR, APIM, Service Bus, and Application Insights during the lab.'

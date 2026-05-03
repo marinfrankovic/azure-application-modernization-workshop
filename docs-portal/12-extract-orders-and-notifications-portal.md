@@ -2,17 +2,17 @@
 
 ## Objective
 
-Move order intake and notification delivery into destination services.
+Plan order and notification modernization after the AKS migration baseline is running.
 
 ## Steps
 
-1. Confirm orders, inventory, and notifications services are deployed.
-2. For Track B, open Service Bus namespace and confirm queue `notifications`.
-3. Submit a test order to destination orders endpoint.
-4. Inspect queue metrics or service logs.
-5. Confirm notification delivery is simulated or processed.
+1. Review the ordering flow in the AKS-hosted application.
+2. For Track B, open Service Bus and confirm a queue or topic exists for notification events.
+3. Submit a test order to the AKS-hosted app.
+4. Inspect queue metrics, application telemetry, or pod logs as applicable.
+5. For Track C, confirm identity, Key Vault, and network controls before any async integration is used.
 6. Document source rollback path.
 
 ## Expected Outcome
 
-The destination order workflow works independently enough for migration testing.
+The migrated application has a validated order path and a track-appropriate notification design.

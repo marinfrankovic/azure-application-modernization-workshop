@@ -6,10 +6,7 @@ param(
     [string]$Location,
 
     [Parameter(Mandatory = $true)]
-    [string]$Prefix,
-
-    [Parameter(Mandatory = $true)]
-    [string]$AdminObjectId
+    [string]$Prefix
 )
 
 $ErrorActionPreference = 'Stop'
@@ -21,7 +18,7 @@ if ($LASTEXITCODE -ne 0) { throw "Failed to create or update resource group $Des
 az deployment group create `
     --resource-group $DestinationResourceGroupName `
     --template-file "$repoRoot/infra/bicep/destination-regulated-private.bicep" `
-    --parameters prefix=$Prefix location=$Location adminObjectId=$AdminObjectId
+    --parameters prefix=$Prefix location=$Location
 if ($LASTEXITCODE -ne 0) { throw "Track C destination deployment failed for $DestinationResourceGroupName." }
 
-Write-Host 'Track C regulated landing zone is ready. Continue with private endpoint, Defender, and Key Vault hardening labs.'
+Write-Host 'Track C regulated destination VNet is ready. Attendees create private AKS, Key Vault, Defender configuration, and private access during the lab.'

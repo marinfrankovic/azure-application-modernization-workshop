@@ -10,8 +10,8 @@ A modernization workshop needs a known-good source. If the source monolith is un
 
 ## Azure Services Used
 
-- Source application hosting.
-- Log Analytics for source logs.
+- Source Linux VM.
+- VM service logs.
 - Source VNet.
 
 ## Steps
@@ -19,7 +19,7 @@ A modernization workshop needs a known-good source. If the source monolith is un
 1. Open the source eShopOnWeb URL from the deployment report under `output/`.
 2. Browse catalog pages and confirm the application responds.
 3. Record source resource group, VNet, app URL, and region.
-4. Check source logs in the source Log Analytics workspace when needed.
+4. If needed, SSH to the source VM and inspect `systemctl status eshop-web --no-pager` and `journalctl -u eshop-web`.
 5. Mark the baseline as ready in your worksheet.
 
 ## Expected Outcome

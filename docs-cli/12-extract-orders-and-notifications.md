@@ -2,29 +2,29 @@
 
 ## Objective
 
-Decompose order intake and notification delivery into destination services.
+Plan order and notification modernization after the VM-to-AKS migration.
 
 ## Architecture Explanation
 
-Orders coordinate catalog and inventory. Notifications are better handled asynchronously. Track B uses Service Bus as the main eventing path, while Track A can use direct HTTP during the simple lab and Track C adds private and RBAC controls.
+Orders coordinate catalog and inventory. Notifications are better handled asynchronously. Track B requires Service Bus integration, while Track C requires private access, managed identity, and governed secret handling.
 
 ## Azure Services Used
 
-- Orders service.
-- Inventory service.
-- Notifications service.
-- Service Bus in Track B and regulated Track C.
-- APIM or Container Apps ingress for routing.
+- AKS.
+- Service Bus for Track B and optional regulated async integration.
+- APIM for Track B routing where selected.
+- Key Vault and managed identity for regulated secret handling.
 
 ## Steps
 
-1. Review eShopOnWeb ordering flow.
-2. Deploy orders, inventory, and notifications services.
-3. For Track B, confirm Service Bus queue `notifications` exists.
-4. Submit a test order to the destination orders endpoint.
-5. Process the notification event or inspect the simulated delivery.
-6. Record rollback path to source ordering.
+1. Review the eShopOnWeb ordering flow.
+2. Identify where notifications are currently synchronous, embedded, or tightly coupled.
+3. For Track B, create and test a Service Bus queue or topic for notification events.
+4. Define how the AKS-hosted application would publish an order notification event.
+5. For Track C, document the managed identity, RBAC, Key Vault, and network controls needed before messages can flow.
+6. Submit a test order against the AKS-hosted app and record observed behavior.
+7. Record rollback path to source ordering.
 
 ## Expected Outcome
 
-The destination can accept an order workflow and decouple notification delivery.
+You have a validated order path and a clear async notification design for your selected track.

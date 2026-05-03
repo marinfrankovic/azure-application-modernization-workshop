@@ -20,30 +20,32 @@ Use elapsed running time from resource creation to cleanup. For example, a 6-hou
 
 | Track | Main billable services | Sample estimate for 8 hours |
 | --- | --- | --- |
-| Track A: Simple | Container Apps, Log Analytics, VNet | EUR 2 - EUR 8 |
-| Track B: Enterprise | AKS nodes, ACR, APIM Developer, Service Bus, Log Analytics | EUR 18 - EUR 45 |
-| Track C: Regulated | Private networking foundations, Key Vault, private ACR, Defender plans, Log Analytics | EUR 12 - EUR 35 before workload compute |
+| Track A: Simple | Source VM, AKS nodes, registry, networking | EUR 12 - EUR 30 |
+| Track B: Enterprise | Source VM, AKS nodes, ACR, APIM Developer, Service Bus, Application Insights, Log Analytics | EUR 20 - EUR 55 |
+| Track C: Regulated | Source VM, private AKS nodes, Key Vault, private networking, Defender plans, Log Analytics | EUR 20 - EUR 65 before private access add-ons |
 
 ## Example Calculation: Track B
 
 Assumptions:
 
 - 2 x `Standard_DS2_v2` AKS nodes for 8 hours.
+- 1 x small source VM for 8 hours.
 - APIM Developer tier for 8 hours.
 - Basic ACR for 8 hours.
 - Service Bus Standard for 8 hours.
 - Low Log Analytics ingestion.
 
 ```text
-AKS nodes:        2 x EUR 0.10 x 8 = EUR 1.60
-APIM Developer:  1 x EUR 0.07 x 8 = EUR 0.56
-ACR Basic:        1 x EUR 0.01 x 8 = EUR 0.08
-Service Bus:      small lab usage    = EUR 0.10 - EUR 1.00
-Log Analytics:    small ingestion    = EUR 1.00 - EUR 5.00
+Source VM:        1 x lab VM x 8 hours = EUR 1.00 - EUR 4.00
+AKS nodes:        2 x node VM x 8 hours = EUR 2.00 - EUR 12.00
+APIM Developer:  1 x instance x 8 hours = EUR 0.50 - EUR 2.00
+ACR Basic:        1 x registry x 8 hours = EUR 0.05 - EUR 0.50
+Service Bus:      small lab usage        = EUR 0.10 - EUR 1.00
+Log Analytics:    small ingestion        = EUR 1.00 - EUR 5.00
 Operational buffer and regional variance: EUR 15 - EUR 35
 ```
 
-Workshop planning estimate: EUR 18 - EUR 45 for a short run.
+Workshop planning estimate: EUR 20 - EUR 55 for a short run.
 
 ## Cost Controls
 

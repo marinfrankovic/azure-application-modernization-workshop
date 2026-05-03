@@ -1,39 +1,50 @@
-# 06 - Track C: Regulated Private Destination
+# 06 - Track C: Regulated AKS Migration
 
 ## Objective
 
-Create regulated destination foundations with private networking, Key Vault, and Defender guidance.
+Migrate eShopOnWeb from the source VM to AKS using private networking, secret governance, and security posture controls.
 
 ## Architecture Explanation
 
-Track C is for teams that must prove network isolation, secret governance, and security posture before application cutover. The lab deploys a private destination VNet, Key Vault with public access disabled, private-ready ACR, and monitoring foundations. Defender enablement is performed through Azure security configuration because it is often subscription-scoped.
+Track C is for regulated, financial, and public sector patterns. The workshop provisions the source VM and a destination VNet only. You create private AKS, Key Vault, Defender configuration, and private access paths yourself.
+
+Choose this track if your success criteria include private control plane access, restricted secrets, explicit network paths, and auditable security posture.
 
 ## Azure Services Used
 
-- Destination VNet with workload and private endpoint subnets.
-- Key Vault with RBAC and public access disabled.
-- ACR with public access disabled.
-- Log Analytics.
-- Microsoft Defender for Cloud configuration guidance.
+- Destination VNet.
+- Private AKS.
+- Key Vault.
+- Microsoft Defender for Cloud.
+- Private DNS and private endpoints where required.
+- Log Analytics and Azure Monitor as selected by the attendee.
 
 ## Steps
 
-1. Get your object ID:
+1. Deploy the workshop foundation:
 
 ```powershell
-az ad signed-in-user show --query id -o tsv
+./infra/scripts/03-deploy-track-c-regulated.ps1 -DestinationResourceGroupName rg-appmod-dest-c -Location westeurope -Prefix appmodc
 ```
 
-2. Deploy regulated foundations:
+2. Confirm the destination resource group contains only the destination VNet and regulated subnets.
+3. Create private AKS with appropriate network settings.
+4. Create Key Vault and configure RBAC, secret storage, and network restrictions.
+5. Enable Defender plans appropriate for the lab subscription, such as Containers and Key Vault.
+6. Containerize eShopOnWeb, store the image in an approved registry path, and deploy it to private AKS.
+7. Validate application access through the approved private or controlled ingress path.
+8. Document the security controls and any exceptions.
 
-```powershell
-./infra/scripts/03-deploy-track-c-regulated.ps1 -DestinationResourceGroupName rg-appmod-dest-c -Location westeurope -Prefix appmodc -AdminObjectId <OBJECT_ID>
-```
+## Validation Criteria
 
-3. Enable Defender plans appropriate for the workshop subscription, such as Containers and Key Vault.
-4. Add private endpoints and DNS zones where required by your organization's policy.
-5. Document how source-to-destination traffic is approved.
+- AKS uses private or restricted networking consistent with your selected design.
+- Public access is disabled or justified for regulated services such as Key Vault.
+- Secrets are not stored in manifests, shell history, or source files.
+- Defender for Cloud shows the relevant plans enabled or a documented reason they cannot be enabled in the lab subscription.
+- The workload runs on AKS and is reachable only through the approved access path.
+- Network tests prove that disallowed public access is blocked.
+- Logs or security findings can be inspected for the migrated workload.
 
 ## Expected Outcome
 
-A regulated destination foundation exists before decomposed services are admitted.
+The application runs on AKS with regulated networking, secrets, and security posture controls that can be explained and validated.
