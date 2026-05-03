@@ -44,7 +44,7 @@ resource destinationVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
       {
         name: 'containerapps'
         properties: {
-          addressPrefix: '10.20.1.0/23'
+          addressPrefix: '10.20.0.0/23'
           delegations: [
             {
               name: 'containerapps-delegation'
@@ -107,7 +107,7 @@ resource containerApps 'Microsoft.App/containerApps@2023-05-01' = [for app in ap
     configuration: {
       ingress: {
         external: app.external
-        targetPort: 8000
+        targetPort: 80
       }
     }
     template: {

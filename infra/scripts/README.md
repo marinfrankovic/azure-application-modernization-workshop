@@ -19,4 +19,4 @@ These scripts follow the data-resilience workshop convention: infrastructure scr
 - `validate.ps1` lists deployed resources and runtime services.
 - `cleanup.ps1` deletes workshop resource groups.
 
-No script generates workshop passwords or static secrets. Access uses the signed-in Azure account and Azure RBAC. For Track B, use `az aks get-credentials` after deployment to connect to AKS.
+No script generates workshop passwords or static secrets. Access uses the signed-in Azure account and Azure RBAC. Deployment scripts fail fast on Azure CLI errors so the generated report records failed stages accurately. For Track B, use `az aks get-credentials` after deployment to connect to AKS.
